@@ -111,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
         } catch (ArrayIndexOutOfBoundsException e) {
 
         }
+        ///ffieu
 
         return count;
     }
