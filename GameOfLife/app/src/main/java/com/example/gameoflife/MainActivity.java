@@ -11,8 +11,9 @@ import android.widget.Button;
 import android.widget.GridLayout;
 
 public class MainActivity extends AppCompatActivity {
-   static RecyclerViewAdapter rva;
-boolean[][] data =new boolean[100][100];
+    static RecyclerViewAdapter rva;
+    boolean[][] data = new boolean[100][100];
+
     public static void generationChange(boolean[][] arr) {
         for (int i = 0; i < arr.length; i++) {
             for (int e = 0; e < arr[i].length; e++) {
@@ -115,19 +116,39 @@ boolean[][] data =new boolean[100][100];
     }
 
 
+    boolean play = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        RecyclerView rv= findViewById(R.id.recyclerView);
-        rva= new RecyclerViewAdapter(data);
+        RecyclerView rv = findViewById(R.id.recyclerView);
+        rva = new RecyclerViewAdapter(data);
         rv.setAdapter(rva);
+        Button pause = findViewById(R.id.pause);
+        Button next = findViewById(R.id.next);
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                generationChange(data);
+            }
+        });
+        pause.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (play) {
+                    play = false;
+                } else {
+                    play = true;
+                }
+            }
+        });
 
 
 
 
     }
+
 
 
 }
