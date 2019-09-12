@@ -40,18 +40,36 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/recyclerView">
 
-        <Button
-            android:id="@+id/pause"
-            android:layout_width="70dp"
-            android:layout_height="81dp"
+        <ImageButton
+            android:id="@+id/clear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@android:drawable/ic_media_pause" />
+            android:src="@android:drawable/ic_menu_delete"
+            tools:src="@android:drawable/ic_menu_delete" />
 
-        <Button
+        <ImageButton
+            android:id="@+id/pause"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@android:drawable/ic_media_pause"
+            tools:src="@android:drawable/ic_media_pause" />
+
+        <ImageButton
             android:id="@+id/next"
             android:layout_width="wrap_content"
-            android:layout_height="79dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@android:drawable/ic_media_next" />
+            android:src="@android:drawable/ic_media_next"
+            tools:src="@android:drawable/ic_media_next" />
+
+        <ImageButton
+            android:id="@+id/randomized"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/ic_24pxreal" />
+
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
