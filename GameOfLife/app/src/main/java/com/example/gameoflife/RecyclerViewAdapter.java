@@ -16,7 +16,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     private boolean[][] data;
     private LinearLayout layout;
-    private ArrayList<Button> bl = new ArrayList<>();
+
 
     public RecyclerViewAdapter(boolean[][] data) {
         this.data = data;
@@ -27,25 +27,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public ViewHolda onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         layout = new LinearLayout(parent.getContext());
-        for (int i = 0; i < data[0].length; i++) {
-            Button bo = new Button(layout.getContext());
-            bo.setBackground(layout.getContext().getDrawable(R.color.gray));
-
-            bo.setLayoutParams(new LinearLayout.LayoutParams(layout.getWidth() / data[0].length, ViewGroup.LayoutParams.MATCH_PARENT));
-            bo.setPadding(0, 0, 0, 0);
-            bl.add(bo);
 
 
-        }
-
-
-        return new ViewHolda(layout, (Button[]) bl.toArray());
+        return new ViewHolda(layout);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolda holder,final int position) {
+    public void onBindViewHolder(@NonNull ViewHolda holder, final int position) {
         for (int i = 0; i < holder.linearLayout.getChildCount(); i++) {
-           final Button b = (Button) holder.linearLayout.getChildAt(i);
+            final Button b = (Button) holder.linearLayout.getChildAt(i);
             if (data[position][i]) {
                 b.setBackground(layout.getContext().getDrawable(R.color.orange));
             } else {
@@ -53,20 +43,22 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
 
             }
-            final int e=i;
+            final int e = i;
             b.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (b.getBackground().equals(layout.getContext().getDrawable(R.color.orange))) {
 
                         b.setBackground(layout.getContext().getDrawable(R.color.gray));
-                        data[position][e]=false;
-
+                        data[position][e] = false;
+                        RecyclerViewAdapter.this.notifyItemChanged(position);
 
                     } else {
 
                         b.setBackground(layout.getContext().getDrawable(R.color.orange));
-                        data[position][e]=true;
+
+                        data[position][e] = true;
+                        RecyclerViewAdapter.this.notifyItemChanged(position);
                     }
                 }
             });
@@ -86,16 +78,25 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         LinearLayout linearLayout;
 
-        public ViewHolda(@NonNull LinearLayout itemView, Button... b) {
+        public ViewHolda(@NonNull LinearLayout itemView) {
             super(itemView);
             linearLayout = itemView;
-            for (final Button bo : b) {
+            linearLayout.setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            linearLayout.setPadding(0, 0, 0, 0);
+            linearLayout.setOrientation(LinearLayout.HORIZONTAL);
+            for (int i = 0; i < data[0].length; i++) {
+                Button bo = new Button(layout.getContext());
+
                 linearLayout.addView(bo);
+                bo.setBackground(layout.getContext().getDrawable(R.color.gray));
+                int distance =layout.getWidth() / data[0].length;
+                LinearLayout.LayoutParams lp =  new LinearLayout.LayoutParams(new LinearLayout.LayoutParams(40, 40));
+                lp.setMargins(0,0,0,0);
+                bo.setLayoutParams(lp);
+                bo.setPadding(0, 0, 0, 0);
 
             }
-            linearLayout.setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
-            itemView.setOrientation(LinearLayout.HORIZONTAL);
 
 
         }
