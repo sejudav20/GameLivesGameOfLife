@@ -23,72 +23,58 @@ public class MainActivity extends AppCompatActivity {
     static RecyclerViewAdapter rva;
     boolean[][] data = new boolean[20][30];
 
-    public static void generationChange(boolean[][] arr) {
-        ArrayList<Integer> valuesX1=new ArrayList<>();
-        ArrayList<Integer> valuesy1=new ArrayList<>();
-        ArrayList<Integer> valuesX0=new ArrayList<>();
-        ArrayList<Integer> valuesy0=new ArrayList<>();
 
-        for (int i = 0; i < arr.length; i++) {
-            for (int e = 0; e < arr[i].length; e++) {
-                int neighbors = numNeighbors(arr, i, e);
-                if (arr[i][e]) {
-                    if (neighbors < 2 || neighbors > 3) {
     public static class generationalChange extends AsyncTask<boolean[][], Void, Void> {
 
-                        valuesX0.add(i);
-                        valuesy0.add(e);
-
-                        //arr[i][e] = false;
-
-                    }
 
         @Override
         protected Void doInBackground(boolean[][]... booleans) {
             boolean[][] arr = booleans[0];
+            ArrayList<Integer> valuesX1 = new ArrayList<>();
+            ArrayList<Integer> valuesy1 = new ArrayList<>();
+            ArrayList<Integer> valuesX0 = new ArrayList<>();
+            ArrayList<Integer> valuesy0 = new ArrayList<>();
+
             for (int i = 0; i < arr.length; i++) {
                 for (int e = 0; e < arr[i].length; e++) {
                     int neighbors = numNeighbors(arr, i, e);
                     if (arr[i][e]) {
                         if (neighbors < 2 || neighbors > 3) {
-                            arr[i][e] = false;
+                            valuesX0.add(i);
+                            valuesy0.add(e);
 
-                } else {
-                    if (neighbors == 3) {
-                        valuesX1.add(i);
-                        valuesy1.add(e);
-                       // arr[i][e] = true;
-
-
+                        }
                     } else {
                         if (neighbors == 3) {
-                            arr[i][e] = true;
+                            valuesX1.add(i);
+                            valuesy1.add(e);
+                            // arr[i][e] = true;
+
 
                         }
 
+
                     }
-
                 }
+            }
 
+            for (int i = 0; i < valuesX0.size(); i++) {
+
+                arr[valuesX0.get(i)][valuesy0.get(i)] = false;
+
+            }
+            for (int i = 0; i < valuesX1.size(); i++) {
+
+                arr[valuesX1.get(i)][valuesy1.get(i)] = true;
 
             }
             rva.notifyDataSetChanged();
 
 
             return null;
-        }
-        for(int i=0;i<valuesX0.size();i++){
 
-            arr[valuesX0.get(i)][valuesy0.get(i)] = false;
 
         }
-        for(int i=0;i<valuesX1.size();i++){
-
-            arr[valuesX1.get(i)][valuesy1.get(i)] = true;
-
-        }
-
-        rva.notifyDataSetChanged();
 
     }
 
@@ -197,6 +183,7 @@ public class MainActivity extends AppCompatActivity {
 
 
                 }
+                rva.notifyDataSetChanged();
             }
         });
         final ImageButton random = findViewById(R.id.randomized);
@@ -217,46 +204,49 @@ public class MainActivity extends AppCompatActivity {
 
 
                 }
-                Log.d("test","pause is clicked");
-                while(play){
-                    generationChange(data);
+                rva.notifyDataSetChanged();
+
+            }
+
+        });
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new generationalChange().execute(data);
+            }
+        });
+        pause.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("test", "pause is clicked");
+
+                if (play) {
+                    play = false;
+                    pause.setImageDrawable(getDrawable(R.drawable.ic_play_arrow_black_24dp));
+
+                } else {
+                    play = true;
+                    pause.setImageDrawable(getDrawable(R.drawable.ic_pause_black_24dp));
+
+
+                }
+
+                while (play) {
+                    new generationalChange().execute(data);
                     try {
-                        Thread.sleep(30);
-                        Log.d("test","sleeping");
+                        Thread.sleep(1);
+                        Log.d("test", "sleeping");
                     } catch (InterruptedException e) {
-                        Toast.makeText(MainActivity.this,"Error",Toast.LENGTH_LONG).show();
+                        Toast.makeText(MainActivity.this, "Error", Toast.LENGTH_LONG).show();
                     }
 
                 }
+
             }
+        });
 
-    });
-        next.setOnClickListener(new View.OnClickListener(){
-        @Override
-        public void onClick (View view){
-        new generationalChange().execute(data);
+
     }
-    });
-        pause.setOnClickListener(new View.OnClickListener()
-
-    {
-        @Override
-        public void onClick (View view){
-        if (play) {
-            play = false;
-            pause.setImageDrawable(getDrawable(R.drawable.ic_play_arrow_black_24dp));
-
-        } else {
-            play = true;
-            pause.setImageDrawable(getDrawable(R.drawable.ic_pause_black_24dp));
-
-
-        }
-    }
-    });
-
-
-}
 
 
 }

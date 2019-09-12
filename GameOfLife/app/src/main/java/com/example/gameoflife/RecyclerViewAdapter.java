@@ -89,14 +89,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
                 linearLayout.addView(bo);
                 bo.setBackground(layout.getContext().getDrawable(R.color.gray));
-                int distance =layout.getWidth() / data[0].length;
-                LinearLayout.LayoutParams lp =  new LinearLayout.LayoutParams(new LinearLayout.LayoutParams(40, 40));
-                lp.setMargins(0,0,0,0);
+                int distance = layout.getWidth() / data[0].length;
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(new LinearLayout.LayoutParams(40, 40));
+                lp.setMargins(0, 0, 0, 0);
                 bo.setLayoutParams(lp);
                 bo.setPadding(0, 0, 0, 0);
 
             }
-
 
 
         }
